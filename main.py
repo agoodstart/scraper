@@ -28,7 +28,7 @@ def get_chrome_driver():
 
     # Use this to bypass recaptcha
     chrome_options.add_argument('--user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"')
-    chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--headless')
     chrome_options.add_argument('--log-level=3')
     chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 
@@ -53,17 +53,22 @@ if __name__ == "__main__":
         linklist.append(l)
         i += 1
 
+    # print(linklist)
+
     for a in linklist:
         d.get(a)
         try:
-            data=WebDriverWait(d, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div.object-kenmerken-body dl.object-kenmerken-list dt')))
-            for d in data:
-                ih = d.get_attribute('innerHTML')
+            data=WebDriverWait(d, 10).until(EC.visibility_of_all_elements_located((By.XPATH, '//dt[contains(text(),"Ligging tuin")]')))
+
+            # ih = data.get_attribute('innerHTML')
+            # print(ih)
+            # data=WebDriverWait(d, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div.object-kenmerken-body dl.object-kenmerken-list dt')))
+            for dt in data:
+                ih = dt.get_attribute('innerHTML')
                 print(ih)
+                continue
         except:
             print('Element not found')
-            continue
+        continue
     
     d.close()
-
-    
